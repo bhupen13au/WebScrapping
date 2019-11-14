@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup as soup
 from urllib.request import urlopen as uReq
+import pandas as pd
 
 my_url = 'https://news.ycombinator.com/'
 
@@ -37,20 +38,29 @@ for container_cc in containers_cc:
     author_list.append(author)
 
 # ----------to find the karma points-----------#
-    author_url = 'https://news.ycombinator.com/user?id='+author
-
-    uClient_auth = uReq(author_url)
-    author_html = uClient_auth.read()
-    uClient_auth.close()
-    page_auth = soup(author_html,"html.parser")
-
-    containers_ath = page_auth.findAll("td")
-    # print(len(containers_ath))
-    # print(containers_ath)
-
-    karma = containers_ath[-9].text.strip()
-    karma_list.append(karma)
+#     author_url = 'https://news.ycombinator.com/user?id='+author
+#
+#     uClient_auth = uReq(author_url)
+#     author_html = uClient_auth.read()
+#     uClient_auth.close()
+#     page_auth = soup(author_html,"html.parser")
+#
+#     containers_ath = page_auth.findAll("td")
+#     # print(len(containers_ath))
+#     # print(containers_ath)
+#
+#     karma = containers_ath[-9].text.strip()
+#     karma_list.append(karma)
 
 print(comment_list)
 print(author_list)
-print(karma_list)
+# print(karma_list)
+
+
+# ----------creating dataframe-----------#
+dict = {'Title': title_list, 'Comments': comment_list, 'Author': author_list}
+
+df = pd.DataFrame(dict)
+export_excel = df.to_excel (r'D:\Projects\test_project\export_dataframe.xlsx', index = None, header=True)
+
+#changes3
